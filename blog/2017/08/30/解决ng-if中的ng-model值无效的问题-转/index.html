@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<title>
+  
+    解决ng-if中的ng-model值无效的问题
+  
+</title>
+
+<meta name="description" content="在写分销2.0的购物车部分是遇到了这个问题，纠结了好久，开始以为是哪里绑定出了问题，再三确认，觉得可能是遇到angular的Bug，一搜，发现其实是ngif的作用域问题。作者：abloume &amp;nbsp;&amp;nbsp; 转自：http://blog.csdn.net/u013451157/article/details/60866210 与其他指令一样，ng-if指令也会创建一个子级作用域，因此，如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决ng-if中的ng-model值无效的问题">
+<meta property="og:url" content="http://xujiaxin.com/blog/2017/08/30/解决ng-if中的ng-model值无效的问题-转/index.html">
+<meta property="og:site_name" content="Joe.Xu">
+<meta property="og:description" content="在写分销2.0的购物车部分是遇到了这个问题，纠结了好久，开始以为是哪里绑定出了问题，再三确认，觉得可能是遇到angular的Bug，一搜，发现其实是ngif的作用域问题。作者：abloume &amp;nbsp;&amp;nbsp; 转自：http://blog.csdn.net/u013451157/article/details/60866210 与其他指令一样，ng-if指令也会创建一个子级作用域，因此，如">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-08-30T09:48:13.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="解决ng-if中的ng-model值无效的问题">
+<meta name="twitter:description" content="在写分销2.0的购物车部分是遇到了这个问题，纠结了好久，开始以为是哪里绑定出了问题，再三确认，觉得可能是遇到angular的Bug，一搜，发现其实是ngif的作用域问题。作者：abloume &amp;nbsp;&amp;nbsp; 转自：http://blog.csdn.net/u013451157/article/details/60866210 与其他指令一样，ng-if指令也会创建一个子级作用域，因此，如">
+
+
+  <link rel="alternative" href="/atom.xml" title="Joe.Xu" type="application/atom+xml">
+
+
+
+  <link rel="icon" href="/favicon.png">
+
+
+<link rel="stylesheet" href="/blog/perfect-scrollbar/css/perfect-scrollbar.min.css">
+<link rel="stylesheet" href="/blog/styles/main.css">
+
+
+
+
+
+
+</head>
+<body
+  
+    class="monochrome"
+  
+  >
+  <div class="mobile-header">
+  <button class="sidebar-toggle" type="button">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+  <a class="title" href="/blog/">Joe.Xu</a>
+</div>
+
+  <div class="main-container">
+    <div class="sidebar">
+  <div class="header">
+    <h1 class="title"><a href="/blog/">Joe.Xu</a></h1>
+    
+    <div class="info">
+      <div class="content">
+        
+        
+          <div class="author">Joe.Xu</div>
+        
+      </div>
+      
+        <div class="avatar">
+          
+            <a href="/about"><img src="http://tva3.sinaimg.cn/crop.0.0.750.750.180/6bb79aa3jw8f9234ovs9lj20ku0ku0uk.jpg"></a>
+          
+        </div>
+      
+    </div>
+  </div>
+  <div class="body">
+    
+      
+        <ul class="nav">
+          
+            
+              <li class="category-list-container">
+                <a href="javascript:;">分类</a>
+                
+              </li>
+            
+          
+            
+              <li class="tag-list-container">
+                <a href="javascript:;">标签</a>
+                
+              </li>
+            
+          
+            
+              <li class="archive-list-container">
+                <a href="javascript:;">归档</a>
+                <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/blog/archives/2017/">2017</a><span class="archive-list-count">3</span></li></ul>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="/blog/" title="Homepage">Homepage</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="/blog/archives" title="By Year">By Year</a>
+              </li>
+            
+          
+        </ul>
+      
+        <ul class="nav">
+          
+            
+              <li>
+                <a href="/blog/" title="Joe.Xu">Joe.Xu</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="https://github.com/KonohaX/Blog" title="Github" target="_blank" rel="external">Github</a>
+              </li>
+            
+          
+            
+              <li>
+                <a href="http://weibo.com/u/1807194787" title="Weibo" target="_blank" rel="external">Weibo</a>
+              </li>
+            
+          
+        </ul>
+      
+    
+  </div>
+</div>
+
+    <div class="main-content">
+      
+        <div style="max-width: 1000px">
+      
+          <article id="post-解决ng-if中的ng-model值无效的问题-转" class="article article-type-post">
+  
+    <h1 class="article-header">
+      解决ng-if中的ng-model值无效的问题
+    </h1>
+  
+  
+
+  <div class="article-info">
+    <span class="article-date">
+  2017-08-30
+</span>
+
+    
+
+    
+
+  </div>
+  <div class="article-entry">
+    <p class="text-indent">在写分销2.0的购物车部分是遇到了这个问题，纠结了好久，开始以为是哪里绑定出了问题，再三确认，觉得可能是遇到angular的Bug，一搜，发现其实是ngif的作用域问题。</p><br><p class="text-indent">作者：abloume &nbsp;&nbsp; 转自：<a href="http://blog.csdn.net/u013451157/article/details/60866210" target="_blank" rel="external">http://blog.csdn.net/u013451157/article/details/60866210</a> </p><br><p class="text-indent">与其他指令一样，ng-if指令也会创建一个子级作用域，因此，如果在ng-if指令中添加了元素，并向元素属性增加 ng-model指令，那么ng-model指令对应的作用域属性子级作用域，而并非控制器注入的$scope作用域对象，这点在进行双向数据绑定时，需要引起注意。</p><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;    </div><div class="line">&lt;html ng-app=&quot;myApp&quot;&gt;    </div><div class="line">&lt;head&gt;    </div><div class="line">&lt;meta charset=&quot;UTF-8&quot;&gt;    </div><div class="line">&lt;script src=&quot;http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js&quot;&gt;&lt;/script&gt;    </div><div class="line">&lt;style&gt;  </div><div class="line">  .frame&#123;  </div><div class="line">    padding: 5px 8px;  </div><div class="line">    margin: 0px;  </div><div class="line">    font-size: 12px;  </div><div class="line">    width: 320px;  </div><div class="line">    background-color: #eee;  </div><div class="line">  &#125;  </div><div class="line">  .frame div&#123;  </div><div class="line">    margin: 5px 0px;  </div><div class="line">  &#125;  </div><div class="line">&lt;/style&gt;   </div><div class="line">&lt;/head&gt;    </div><div class="line">&lt;body&gt;    </div><div class="line">  &lt;div ng-controller=&quot;myCtrl&quot; class=&quot;frame&quot;&gt;  </div><div class="line">    &lt;div&gt;  </div><div class="line">      a 的值：   &lt;br&gt;  </div><div class="line">      b 的值：   </div><div class="line">    &lt;/div&gt;  </div><div class="line">    &lt;div&gt;  </div><div class="line">      普通方式： &lt;input type=&quot;checkbox&quot; ng-model=&quot;a&quot;&gt;  </div><div class="line">    &lt;/div&gt;  </div><div class="line">    &lt;div ng-if=&quot;!a&quot;&gt;  </div><div class="line">      ngIf方式：&lt;input type=&quot;checkbox&quot; ng-model=&quot;$parent.b&quot;&gt;  </div><div class="line">    &lt;/div&gt;  </div><div class="line">  &lt;/div&gt;  </div><div class="line">  </div><div class="line">  &lt;script&gt;  </div><div class="line">    angular.module(&apos;myApp&apos;, [])  </div><div class="line">      .controller(&apos;myCtrl&apos;, function($scope)&#123;  </div><div class="line">        $scope.a = false;  </div><div class="line">        $scope.b = false;  </div><div class="line">      &#125;)  </div><div class="line">  &lt;/script&gt;  </div><div class="line">&lt;/body&gt;    </div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure><br><p class="text-indent">在ng-if方式中，每个包含的元素都拥有自己的作用域，因此，复选框元素也拥有自己的$scope作用域。相对于控制器作用域来说，这个作用域属于一个子级作用域，所以，如果它想绑定控制器中的变量值，必须添加$parent标识，只有这样才能访问到控制器中的变量。</p><br><p class="text-indent">因此，解决ng-if中ng-model值无效的问题，主要方法就是在绑定值时添加$parent标识，或者用ng-show指令代替ng-if指令，这两种方法都可以达到同样的页面效果。</p><br><p class="text-indent">因为我将ng-if修改成ng-show后，ng-model的值我明明赋的是false，判断时却变成了true,所以姑且使用了添加$parent方法，实测有效！</p>
+  </div>
+  <footer class="article-footer">
+    
+  <div class="cc">
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/deed.z" target="_blank" title="署名-相同方式共享">
+      <img src="/blog/images/cc/cc.png">
+      
+          <img src="/blog/images/cc/by.png">
+        
+          <img src="/blog/images/cc/sa.png">
+      
+      <span>
+        本作品采用知识共享 署名-相同方式共享 4.0 国际许可协议进行许可。
+      </span>
+    </a>
+  </div>
+
+
+    
+
+  </footer>
+</article>
+
+
+
+
+
+
+
+          <div class="main-footer">
+  
+    © 2018 Joe.Xu - Powered by <a href="http://hexo.io" target="_blank">Hexo</a> - Theme <a href="https://github.com/denjones/hexo-theme-chan" target="_blank">Chan</a>
+  
+</div>
+
+      
+        </div>
+      
+    </div>
+  </div>
+  <script src="//apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="/blog/PhotoSwipe/photoswipe.css">
+  <link rel="stylesheet" href="/blog/PhotoSwipe/default-skin/default-skin.css">
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+             It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+      <!-- Container that holds slides.
+                PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                Don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+
+        <div class="pswp__top-bar">
+
+          <!--  Controls are self-explanatory. Order can be changed. -->
+
+          <div class="pswp__counter"></div>
+
+          <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+          <button class="pswp__button pswp__button--share" title="Share"></button>
+
+          <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+          <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+          <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+          <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div>
+        </div>
+
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/blog/PhotoSwipe/photoswipe.js"></script>
+  <script src="/blog/PhotoSwipe/photoswipe-ui-default.js"></script>
+
+
+<script src="/blog/perfect-scrollbar/js/min/perfect-scrollbar.min.js"></script>
+<script src="/blog/scripts/main.js"></script>
+
+</body>
+</html>
